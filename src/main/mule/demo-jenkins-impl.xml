@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+	<flow name="get-usuarios"
+		doc:id="f3306663-6579-4ad1-ba69-af274a5ee0bb">
+		<http:listener doc:name="Listener"
+			doc:id="d4ce4128-ffa5-45d3-911e-6003112a23ff"
+			config-ref="HTTP_Listener_config" path="/users" />
+		<http:request method="GET" doc:name="Get usuarios"
+			doc:id="1acd56df-1ed2-443f-8365-9cfec4c23298"
+			config-ref="HTTP_Request_configuration" path="/users" />
+		<set-payload value="#[payload]" doc:name="set usuarios"
+			doc:id="39270e64-15cc-4478-b982-c47dc0c60a20" />
+	</flow>
+	<flow name="get-usuario"
+		doc:id="857220ea-c5e4-46ed-b9ef-3ec8c0cad170">
+		<http:listener doc:name="Listener"
+			doc:id="6fa0358a-4e71-430e-84cc-97089d5c2c72"
+			config-ref="HTTP_Listener_config" path="/users/{id}" />
+		<try doc:name="Try" doc:id="9c056cb8-5dae-4d9e-b8d1-e8e412bdb22e">
+			<http:request method="GET" doc:name="Get usuario"
+				doc:id="212c1a7a-21ee-41e6-8fd7-ef371a340ec9"
+				config-ref="HTTP_Request_configuration" path="/users/{id}">
+				<http:uri-params><![CDATA[#[output application/java
+---
+{
+	id : attributes.uriParams.id
+}]]]></http:uri-params>
+			</http:request>
+			<error-handler>
+				<on-error-continue enableNotifications="true"
+					logException="true" doc:name="On Error Continue"
+					doc:id="33b7dbe3-8c24-446c-8c02-5f0fb05924ea">
+					<set-payload value='#[{"message": "user no found"}]'
+						doc:name="Set error" doc:id="26c2bd61-1642-4203-b29f-ad449db6c33e" />
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<set-payload
+			value='#[%dw 2.0
+output application/json
+---
+payload]'
+			doc:name="Set usuario" doc:id="c71d3032-4e5c-4cb4-bdcc-b72d5b0fcd85" />
+	</flow>
+
+</mule>
