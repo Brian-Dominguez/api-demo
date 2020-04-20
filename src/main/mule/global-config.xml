@@ -82,7 +82,7 @@ output application/json
 
 	statusCode: vars.statusCode,
   	error: {
-  		"correlationId": vars.correlationID,
+  	    "correlationId": vars.correlationID,
   		"type": (error.errorType.namespace ++ ":" ++ error.errorType.identifier as String) default "Not found",
   		detail: (error.description as String) default "Unhandled Exception"
   	}
