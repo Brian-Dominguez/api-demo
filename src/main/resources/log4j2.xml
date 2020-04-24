@@ -20,6 +20,12 @@
 			<JSONLayout objectMessageAsJsonObject="true" />
 		</Console>
 
+		<Socket name="Socket" protocol="TCP" port="9900"
+			host="127.0.0.1">
+			<PatternLayout pattern="%-5p %d [%t] [event: %X{correlationId}] %c: %m%n" />
+		</Socket>
+
+
 	</Appenders>
 	<Loggers>
 
@@ -40,6 +46,7 @@
 		<AsyncRoot level="INFO">
 			<AppenderRef ref="file" />
 			<AppenderRef ref="Console" />
+			<AppenderRef ref="Socket" />
 		</AsyncRoot>
 	</Loggers>
 </Configuration>
