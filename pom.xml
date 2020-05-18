@@ -47,17 +47,17 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-					<classifier>mule-application</classifier>
+					<classifier>mule-demo-application</classifier>
 					<cloudHubDeployment>
 						<objectStoreV2>true</objectStoreV2>
 						<uri>https://anypoint.mulesoft.com</uri>
-						<muleVersion>${app.runtime}</muleVersion>
-						<server>${serverId}</server>
-						<environment>${env}</environment>
-						<applicationName>${app_name}</applicationName> 
-						<workers>${cloudhubWorkers}</workers>
-						<workerType>${cloudhubWorkerType}</workerType>
-						<deploymentTimeout>${deployTimeout}</deploymentTimeout> 
+						<muleVersion>4.2.2</muleVersion>
+						<server>anypoint</server>
+						<environment>Sandbox</environment>
+						<applicationName>mule-demo-application</applicationName> 
+						<workers>1</workers>
+						<workerType>Micro</workerType>
+						<deploymentTimeout>1000000</deploymentTimeout> 
 					</cloudHubDeployment>
 				</configuration>
 			</plugin>
